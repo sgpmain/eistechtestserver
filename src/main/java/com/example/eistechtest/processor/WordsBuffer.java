@@ -14,7 +14,7 @@ import static org.apache.commons.collections4.CollectionUtils.emptyIfNull;
 
 @Component
 @Slf4j
-public class WordsBuffer {
+class WordsBuffer {
 
     private DelayQueue<WordDelayed> delayQueue = new DelayQueue<>();
 

@@ -10,14 +10,8 @@ import org.springframework.stereotype.Component;
 public class WordsKafkaConsumerRouter extends RouteBuilder {
 
     @Override
-    public void configure() throws Exception {
-//        from("kafka:{{word.kafka.topic.name}}?brokers={{kafka.bootstrap.servers}}")
-//                .bean(WordsKafkaConsumer.class);
+    public void configure() {
         from("kafka:{{word.kafka.topic.name}}?brokers={{kafka.bootstrap.servers}}")
-        .to("seda:input");
-        from("seda:input?pollTimeout=15000")
                 .bean(WordsKafkaConsumer.class);
-//                to("bean:processInput").to("bean:createResponse");
-
     }
 }

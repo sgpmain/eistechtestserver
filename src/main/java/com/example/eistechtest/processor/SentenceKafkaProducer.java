@@ -6,7 +6,6 @@ import org.apache.camel.ProducerTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,11 +24,11 @@ public class SentenceKafkaProducer {
     public void produce() {
         final List<WordDelayed> wordDelayedList = new ArrayList<>();
         wordsBuffer.poll(wordDelayedList);
-        final String sentence = wordDelayedList.stream().map(wd -> wd.getWord()).collect(Collectors.joining(" "));
+        final String sentence = wordDelayedList.stream()
+                .map(WordDelayed::getWord).collect(Collectors.joining(" "));
 
         producer.sendBody("kafka:{{sentence.kafka.topic.name}}?brokers={{kafka.bootstrap.servers}}",
-                Instant.now() + sentence);
-//                sentence);
+                sentence);
         log.info("Produce sentence: [sentence: {}]", sentence);
     }
 }

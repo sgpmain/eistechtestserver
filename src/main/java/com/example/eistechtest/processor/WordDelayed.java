@@ -8,13 +8,13 @@ import java.util.concurrent.TimeUnit;
 import static com.example.eistechtest.configuration.Constants.MILLISECONDES;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
-public class WordDelayed implements Delayed {
+class WordDelayed implements Delayed {
 
     @Value("${delay.seconds.to.form.sentence}")
     private long delay;
 
-    private String word;
-    private long endTime;
+    private final String word;
+    private final long endTime;
 
     public WordDelayed(String word) {
         this.word = word;
@@ -30,7 +30,7 @@ public class WordDelayed implements Delayed {
     @Override public int compareTo(Delayed that) {
         long thisDelay = this.getDelay(MILLISECONDS);
         long thatDelay = that.getDelay(MILLISECONDS);
-        return (thisDelay < thatDelay)? -1: (thisDelay > thatDelay) ? 1 : 0;
+        return Long.compare(thisDelay, thatDelay);
     }
 
     String getWord() {
